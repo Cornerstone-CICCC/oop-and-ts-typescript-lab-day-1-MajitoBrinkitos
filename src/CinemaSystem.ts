@@ -8,30 +8,65 @@
 
 enum MovieGenre {
   Action,
-  // add 4 more
+  Romance,
+  Drama,
+  Comedy,
+  Documentary,
+  Horror
 }
 
-type Seat = [string, number]
+//Tuple
+type Seat = [rowLetter: string, seatNumber: number];
 
+//Alias
 type Movie = {
-
+  movieId: number,
+  title: string,
+  genre: MovieGenre,
+  availableSeats: Seat []
 }
 
+//Array of movies
 const movies: Movie[] = [];
 
-function addMovie(movieId, title, genre, availableSeats) {
-
+function addMovie(movieId: number, title: string, genre: MovieGenre, availableSeats: Seat[]): Movie {
+  const newMovie: Movie = { movieId, title, genre, availableSeats };
+  movies.push(newMovie);
+  return newMovie;
 }
 
-function bookSeat(movieId, rowLetter, seatNumber) {
-
+function bookSeat(movieId: number, rowLetter: string, seatNumber: number): string {
+  const movie = movies.find(movie => movie.movieId === movieId);
+  if(movie) {
+    const seatIndex = movie.availableSeats.findIndex(seat => seat [0] === rowLetter && seat [1] === seatNumber);
+    if(seatIndex !== -1){
+      movie.availableSeats.splice(seatIndex, 1);
+      return `Your booking info: ${rowLetter}${seatNumber}`
+    } else {
+      return `Seat ${rowLetter}${seatNumber} not available.`
+    }
+  }else {
+    return `This title is not available ${movieId}`;
+  }
 }
 
-function checkSeatAvailability(movieId, rowLetter, seatNumber) {
-
+function checkSeatAvailability(movieId: number, rowLetter: string, seatNumber: number): boolean {
+  const movie = movies.find(movie => movie.movieId === movieId);
+  if(movie){
+    return movie.availableSeats.some(seat => seat [0] === rowLetter && seat[1] === seatNumber);
+  } else {
+    return false;
+  }
 }
 
 // Test cases (Create more if needed)
 console.log(addMovie(1, "Avengers", MovieGenre.Action, [["A", 1], ["A", 2]])) // { movieId: 1, title: "Avengers", genre: MovieGenre.Action, availableSeats: [["A", 1], ["A", 2]] }
+console.log(addMovie(2, "Casino Royal", MovieGenre.Action, [["K", 14], ["U", 26]]))
+console.log(addMovie(3, "Casablanca", MovieGenre.Drama, [["F", 5], ["F", 6]]))
+
+//Booking
 console.log(bookSeat(1, "A", 1)) // "Seat A1 booked successfully"
+console.log(bookSeat(2, "K", 12))
+
+//Availability
 console.log(checkSeatAvailability(1, "A", 1)) // false
