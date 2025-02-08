@@ -40,14 +40,44 @@ function borrowBook(bookId) {
     }
 }
 function returnBook(bookId) {
+    var book = library.find(function (book) { return book.bookId === bookId; });
+    if (book) {
+        if (!book.isAvailable) {
+            book.isAvailable = true;
+            return "".concat(book.title, " has been returned");
+        }
+        else {
+            return "".concat(book.title, " is available");
+        }
+    }
+    else {
+        return "".concat(bookId, " is not in the system. Try another id or title.");
+    }
 }
 function checkAvailability(bookId) {
+    var book = library.find(function (book) { return book.bookId === bookId; });
+    if (book) {
+        return book.isAvailable;
+    }
+    else {
+        return false;
+    }
 }
 function removeBook(bookId) {
+    var index = library.findIndex(function (book) { return book.bookId === bookId; });
+    if (index != -1) {
+        var removedBook = library.splice(index, 1)[0];
+        return "".concat(removedBook.title, " has been removed from the library");
+    }
+    else {
+        return "Book with ID ".concat(bookId, " not found");
+    }
 }
 // Test cases (Create more if needed)
 console.log(addBook(1, "The Hobbit", "J.R.R. Tolkien", BookGenre.Fantasy, true)); // { bookId: 1, title: "The Hobbit", author: "J.R.R. Tolkien", genre: BookGenre.Fantasy, isAvailable: true }
+console.log(addBook(2, "Harry Potter and the Philosopher's Stone", "J.K.Rowling", BookGenre.Fantasy, true));
 console.log(borrowBook(1)); // "The Hobbit has been borrowed"
 console.log(checkAvailability(1)); // false
+console.log(checkAvailability(2));
 console.log(returnBook(1)); // "The Hobbit has been returned"
 console.log(removeBook(1)); // "The Hobbit has been removed from the library"
