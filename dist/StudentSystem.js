@@ -8,12 +8,38 @@
 // 6. Create a function called getStudent which returns a student’s information based on studentId.
 var students = [];
 function addStudent(studentId, name, age, subjects, status) {
+    var newStudent = {
+        studentId: studentId,
+        name: name,
+        age: age,
+        subjects: subjects,
+        status: status
+    };
+    students.push(newStudent);
+    return newStudent;
 }
 function updateStatus(studentId, status) {
+    var student = students.find(function (student) { return student.studentId === studentId; });
+    if (student) {
+        student.status = status;
+        return "".concat(student.name, " new status is: ").concat(status);
+    }
+    else {
+        return "Student with ID: ".concat(studentId, " not found");
+    }
 }
 function addSubject(studentId, subject) {
+    var student = students.find(function (student) { return student.studentId === studentId; });
+    if (student) {
+        student.subjects.push(subject);
+        return "".concat(subject, " added to ").concat(student.name, "'s subjects.");
+    }
+    else {
+        return "Student with ID ".concat(studentId, " not found");
+    }
 }
 function getStudent(studentId) {
+    return students.find(function (student) { return student.studentId === studentId; });
 }
 // Test cases (Create more if needed)
 console.log(addStudent(1, "Alice", 20, ["Math", "Science"], "active")); // { studentId: 1, name: "Alice", age: 20, subjects: ["Math", "Science"], status: "active" }

@@ -27,7 +27,7 @@ function updateStock(itemId, quantity) {
 function checkStock(itemId) {
     var item = inventory.find(function (item) { return item.itemId === itemId; });
     if (item) {
-        return "Stock checked: ".concat(item.details[2]);
+        return "Stock checked:= ".concat(item.details[2]);
     }
     else {
         return false;

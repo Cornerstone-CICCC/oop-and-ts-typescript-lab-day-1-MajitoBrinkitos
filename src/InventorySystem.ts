@@ -38,7 +38,7 @@ function updateStock(itemId: number, quantity: number): string {
 function checkStock(itemId: number): boolean{
     const item = inventory.find(item => item.itemId === itemId);
     if(item){
-        return `Stock checked: ${item.details[2]}`;
+        return `Stock checked:= ${item.details[2]}`;
     } else {
         return false;
     }
